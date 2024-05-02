@@ -39,23 +39,23 @@ def nameCategories():
                 conn = sqlite3.connect('database.db')
                 c = conn.cursor()
                 
-                # Construct the column names string for the INSERT statement
-                column_names = ','.join(f'category_{i}, amount_{i}' for i in range(1, len(categoryAmounts) + 1))
-                # Construct the placeholders string for the values
-                value_placeholders = ','.join('?,?' for _ in range(len(categoryAmounts)))  # Two placeholders per category (category and amount)
+                #Construct the column names string for the INSERT statement
+                columnNames = ','.join(f'category_{i}, amount_{i}' for i in range(1, len(categoryAmounts) + 1))
+                #Construct the placeholders string for the values
+                valuePlaceholders = ','.join('?,?' for _ in range(len(categoryAmounts)))  # Two placeholders per category (category and amount)
                 
-                # Construct the SQL query with dynamic column names and placeholders
-                sql = f"INSERT INTO Categories ({column_names}) VALUES ({value_placeholders})"
+                #Construct the SQL query with dynamic or user made column names and placeholders
+                sql = f"INSERT INTO Categories ({columnNames}) VALUES ({valuePlaceholders})"
                 
-                # Extract category names and amounts from Entry widgets
-                category_amounts_flat = []
+                #Extract category names and amounts from Entry widgets
+                categoryAmountsFlat = []
                 for category, entry in categoryAmounts:
-                    category_name = category
+                    categoryName = category
                     amount = entry.get()
-                    category_amounts_flat.extend((category_name, amount))
+                    categoryAmountsFlat.extend((categoryName, amount))
                 
                 # Execute the SQL query with the category names and amounts as values
-                c.execute(sql, category_amounts_flat)
+                c.execute(sql, categoryAmountsFlat)
                 
                 conn.commit()
                 conn.close()
@@ -111,9 +111,9 @@ def query():
     # Display categories
     categoryData = []
     for record in records:
-        category_name = record[0]
+        categoryName = record[0]
         amounts = [record[i] for i in range(1, len(record))]
-        categoryData.append((category_name, amounts))
+        categoryData.append((categoryName, amounts))
     displayCategories(categoryData)
 
 if dbExists:
